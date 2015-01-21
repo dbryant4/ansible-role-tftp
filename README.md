@@ -1,7 +1,7 @@
 # TFTP Role
 
 [![Build
-Status](https://travis-ci.org/dbryant4/ansible-role-ntp.svg?branch=master)](https://travis-ci.org/dbryant4/ansible-role-tftp)
+Status](https://travis-ci.org/dbryant4/ansible-role-tftp.svg?branch=master)](https://travis-ci.org/dbryant4/ansible-role-tftp)
 
 ## Description
 

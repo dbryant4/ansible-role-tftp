@@ -1,0 +1,4 @@
+---
+tftp_centos_mirror: 'http://centos.servint.com/centos-7/7/os/x86_64/'
+tftp_tftpboot_dir: '/tftpboot'
+tftp_ks_method: 'http://centos.servint.com/centos-7/7/os/x86_64/'

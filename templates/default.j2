@@ -1,0 +1,68 @@
+# Managed by Ansible
+default vesamenu.c32
+timeout 600
+
+menu clear
+menu title Network Boot
+menu vshift 8
+menu rows 18
+menu margin 8
+#menu hidden
+menu helpmsgrow 15
+menu tabmsgrow 13
+
+menu tabmsg Press Tab for full configuration options on menu items.
+
+label linux
+  menu label ^Install CentOS 7 (Text Mode)
+  text help
+	Install Centos 7 on 64bit machines. The installer is text mode. 
+	There is no kickstart.
+  endtext
+  kernel centos/7/x86_64/vmlinuz
+  append initrd=centos/7/x86_64/initrd.img method={{ tftp_ks_method }} devfs=nomount lang=en_US keymap=us text
+
+# utilities submenu
+menu begin ^Troubleshooting
+  menu title Troubleshooting
+
+label vesa
+  menu indent count 5
+  menu label Install CentOS 7 in ^basic graphics mode
+  text help
+	Try this option out if you're having trouble installing
+	CentOS 7.
+  endtext
+  kernel centos/7/x86_64/vmlinuz
+  append initrd=centos/7/x86_64/initrd.img inst.stage2=hd:LABEL=CentOS\x207\x20x86_64 xdriver=vesa nomodeset quiet
+
+label rescue
+  menu indent count 5
+  menu label ^Rescue a CentOS system
+  text help
+	If the system will not boot, this lets you access files
+	and edit config files to try to get it booting again.
+  endtext
+  kernel centos/7/x86_64/vmlinuz
+  append initrd=centos/7/x86_64/initrd.img inst.stage2=hd:LABEL=CentOS\x207\x20x86_64 rescue quiet
+
+label memtest
+  menu label Run a ^memory test
+  text help
+	If your system is having issues, a problem with your
+	system's memory may be the cause. Use this utility to
+	see if the memory is working correctly.
+  endtext
+  kernel memtest
+
+
+label local
+  menu label Boot from ^local drive
+  localboot 0xffff
+
+label returntomain
+  menu label Return to ^main menu
+  menu exit
+
+menu end
+

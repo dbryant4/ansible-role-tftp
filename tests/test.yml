@@ -1,0 +1,5 @@
+---
+- hosts: tftp-servers
+  gather_facts: yes
+  roles:
+    - ansible-role-tftp

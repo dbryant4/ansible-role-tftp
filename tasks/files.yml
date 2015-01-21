@@ -1,0 +1,17 @@
+---
+- name: write the tftp configuration
+  template: src=tftp.j2 dest=/etc/xinetd.d/tftp backup=yes
+  notify:
+    - restart xinetd
+
+- file: path='{{ tftp_tftpboot_dir }}' owner=nobody mode=0777 state=directory
+- command: cp /usr/lib/syslinux/pxelinux.0 '{{ tftp_tftpboot_dir }}/pxelinux.0' creates='{{ tftp_tftpboot_dir }}/pxelinux.0'
+- file: path='{{ tftp_tftpboot_dir }}/pxelinux.cfg' mode=0777 state=directory
+- template: src=default.j2 dest='{{ tftp_tftpboot_dir }}/pxelinux.cfg/default' mode=0666
+
+- file: path='{{ tftp_tftpboot_dir }}/centos/7/x86_64/' mode=0777 state=directory
+- get_url: url='{{ tftp_centos_mirror }}isolinux/vmlinuz' dest='{{ tftp_tftpboot_dir }}/centos/7/x86_64/vmlinuz'
+- get_url: url='{{ tftp_centos_mirror }}isolinux/initrd.img' dest='{{ tftp_tftpboot_dir }}/centos/7/x86_64/initrd.img'
+- get_url: url='{{ tftp_centos_mirror }}isolinux/vesamenu.c32' dest='{{ tftp_tftpboot_dir }}/vesamenu.c32' mode=0666
+- get_url: url='{{ tftp_centos_mirror }}isolinux/memtest' dest='{{ tftp_tftpboot_dir }}/memtest' mode=0666
+

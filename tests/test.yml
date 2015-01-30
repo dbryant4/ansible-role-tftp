@@ -14,13 +14,7 @@
       register: service_status
       changed_when: False
 
-    - shell: >
-'tftp <<EOF
-connect 127.0.0.1
-mode binary
-get /centos/7/x86_64/vmlinuz
-quit
-EOF'
+    - shell: 'echo "get centos/7/x86_64/vmlinuz" | tftp 127.0.0.1'
       args:
         chdir: /tmp
       register: tftp

@@ -1,5 +1,36 @@
 ---
-- hosts: tftp-servers
+- hosts: all
   gather_facts: yes
+  pre_tasks:
+    - apt: update_cache=yes
+    - apt: name=python-pip
+
   roles:
     - ansible-role-tftp
+
+
+  post_tasks:
+    - command: 'service xinetd status'
+      register: service_status
+      changed_when: False
+
+    - shell: >
+'tftp <<EOF
+connect 127.0.0.1
+mode binary
+get /centos/7/x86_64/vmlinuz
+quit
+EOF'
+      args:
+        chdir: /tmp
+      register: tftp
+      changed_when: False
+
+    - stat: path=/tmp/vmlinuz
+      register: vmlinuz
+      changed_when: False
+
+    - assert:
+        that:
+          - 'service_status.rc == 0'
+          - 'vmlinuz.stat.exists'
